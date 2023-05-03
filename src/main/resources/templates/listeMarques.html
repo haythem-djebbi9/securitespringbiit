@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<link rel="stylesheet" type="text/css"href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+ <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+ <script type="text/javascript"src="/webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<title>Liste des Marques</title>
+</head>
+<body>
+<div th:replace="template"></div>
+
+<div class="container mt-5">
+<div class="card">
+ <div class="card-header">
+ Liste des Marques
+ </div>
+ <div class="card-body">
+ <table class="table table-striped">
+ <tr>
+ <th>ID</th><th>Nom Marque</th><th>Chiffre d'affaires</th><th>Date Validation</th><th>Secteur d'activité</th><th>Slogan</th>
+ </tr> 
+ <tr th:each="m:${marques}">
+ <td th:text="${m.idMarque}"></td>
+ <td th:text="${m.nomMarque}"></td>
+ <td th:text="${m.chiffreaffaire}"></td> 
+ <td><span th:text="${#dates.format(m.dateValidation,'yyyy-MM-dd')}"></span></td>
+ <td th:text="${m.secteurActivite}"></td>
+ <td th:text="${m.slogan}"></td>
+<td sec:authorize="hasRole('ADMIN')" ><a class="btn btn-danger" onclick="return confirm('Etes-vous sûr ?')" th:href="@{supprimerMarque(id=${m.idMarque}, 
+page=${currentPage},size=${size})}">Supprimer</a></td>
+<td sec:authorize="hasRole('ADMIN')"><a class="btn btn-success"th:href="@{modifierMarque(id=${m.idMarque})}">Editer</a></tdsec:authorize="hasRole('ADMIN')">
+
+ </tr> 
+<tr th:each="m : ${marques.content}">
+
+
+
+
+ </table>
+ <ul class="nav nav-pills">
+ <li th:each="page,status:${pages}">
+ <a th:class="${status.index==currentPage?'btn btn-primary':'btn' }"
+ th:href="@{ ListeMarques(page=${status.index}, size=${size} ) }"
+ th:text="${status.index }"></a>
+ </li>
+ </ul>
+ </div>
+</div>
+</div>
+</body>
+</html>
+
